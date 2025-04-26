@@ -444,6 +444,7 @@ const ManifestationForm = ({ language }) => {
                   >
                     <MenuItem value="english_exam">{t.englishExamIssue}</MenuItem>
                     <MenuItem value="pv_issue">{t.pvIssue}</MenuItem>
+                    <MenuItem value="both">{t.bothIssues}</MenuItem>
                   </StyledSelect>
                 </FormControl>
               </Zoom>

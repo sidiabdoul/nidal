@@ -23,6 +23,7 @@ export const translations = {
     voteSuccess: "Votre position a été enregistrée avec succès!",
     englishExamIssue: "L'examen d'anglais aurait dû nous être informé",
     pvIssue: "Le PV du semestre dernier aurait dû nous être envoyé il y a longtemps",
+    bothIssues: "Les deux problèmes (examen d'anglais et PV)",
     matriculeError: 'Matricule invalide',
     allFieldsRequired: 'Tous les champs sont obligatoires',
     pageNotFound: 'Page Non Trouvée',
@@ -57,6 +58,7 @@ export const translations = {
     voteSuccess: "تم تسجيل موقفك بنجاح!",
     englishExamIssue: "كان يجب إبلاغنا بامتحان اللغة الإنجليزية",
     pvIssue: "كان يجب إرسال محضر الفصل الدراسي السابق إلينا منذ فترة طويلة",
+    bothIssues: "كلا المشكلتين (امتحان اللغة الإنجليزية ومحضر الفصل الدراسي)",
     matriculeError: 'رقم التسجيل غير صالح',
     allFieldsRequired: 'جميع الحقول مطلوبة',
     pageNotFound: 'الصفحة غير موجودة',
@@ -77,5 +79,8 @@ export const translations = {
     allVotesDesc: "Discover all positions expressed by students",
     viewAllVotes: "View all votes",
     recentVotes: "Recent Votes",
+    englishExamIssue: "The English exam should have been informed to us",
+    pvIssue: "The previous semester's PV should have been sent to us long ago",
+    bothIssues: "Both issues (English exam and PV)",
   }
 }; 
