@@ -128,6 +128,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Statistics = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -139,7 +141,7 @@ const Statistics = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/stats');
+      const response = await axios.get(`${API_URL}/api/stats`);
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching statistics:', error);

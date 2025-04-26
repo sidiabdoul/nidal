@@ -91,6 +91,8 @@ const ActionButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const AdminDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -118,7 +120,7 @@ const AdminDashboard = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/votes', {
+      const response = await fetch(`${API_URL}/api/votes`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -167,7 +169,7 @@ const AdminDashboard = () => {
   const handleEditSubmit = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5000/api/votes/${selectedVote._id}`, {
+      const response = await fetch(`${API_URL}/api/votes/${selectedVote._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -213,7 +215,7 @@ const AdminDashboard = () => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:5000/api/votes/${selectedVote._id}`, {
+      const response = await fetch(`${API_URL}/api/votes/${selectedVote._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -185,6 +185,8 @@ const StyledSelect = styled(Select)(({ theme }) => ({
   },
 }));
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const ManifestationForm = ({ language }) => {
   const t = translations[language];
   const [formData, setFormData] = useState({
@@ -246,7 +248,7 @@ const ManifestationForm = ({ language }) => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/vote', {
+      const response = await fetch(`${API_URL}/api/vote`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -72,6 +72,8 @@ const StatusChip = styled(Chip)(({ theme, status }) => ({
   },
 }));
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Votes = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -85,7 +87,7 @@ const Votes = () => {
   useEffect(() => {
     const fetchVotes = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/public/votes');
+        const response = await fetch(`${API_URL}/api/public/votes`);
         if (!response.ok) throw new Error('Failed to fetch votes');
         const data = await response.json();
         setVotes(data);
