@@ -128,7 +128,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = 'https://nidalb.onrender.com';
 
 const Statistics = () => {
   const theme = useTheme();

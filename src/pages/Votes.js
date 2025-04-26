@@ -72,7 +72,7 @@ const StatusChip = styled(Chip)(({ theme, status }) => ({
   },
 }));
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = 'https://nidalb.onrender.com';
 
 const Votes = () => {
   const theme = useTheme();

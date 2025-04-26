@@ -91,7 +91,7 @@ const ActionButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = 'https://nidalb.onrender.com';
 
 const AdminDashboard = () => {
   const theme = useTheme();
@@ -314,7 +314,7 @@ const AdminDashboard = () => {
               <TableBody>
                 {votes.map((vote) => (
                   <StyledTableRow key={vote._id}>
-                    <TableCell>{vote.studentName}</TableCell>
+                    <TableCell>{vote.name || '-'}</TableCell>
                     <TableCell>{vote.matricule}</TableCell>
                     <TableCell>
                       <StatusChip
