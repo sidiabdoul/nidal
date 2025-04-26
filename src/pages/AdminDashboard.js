@@ -213,12 +213,17 @@ const AdminDashboard = () => {
   };
 
   const handleDelete = async () => {
+    console.log('Selected Vote:', selectedVote);
+    console.log('Selected Vote ID:', selectedVote?._id);
+    
     if (!selectedVote || !selectedVote._id) {
-      toast.error('Invalid vote ID');
+      console.error('Invalid vote data:', { selectedVote, id: selectedVote?._id });
+      toast.error(t.deleteError || 'Invalid vote ID');
       return;
     }
 
     try {
+      console.log('Attempting to delete vote with ID:', selectedVote._id);
       const response = await fetch(`${API_URL}/api/votes/${selectedVote._id}`, {
         method: 'DELETE',
         headers: {
@@ -227,17 +232,21 @@ const AdminDashboard = () => {
         }
       });
 
+      console.log('Delete response status:', response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Delete error response:', errorData);
         throw new Error(errorData.message || 'Failed to delete vote');
       }
 
+      // Remove the deleted vote from the state
       setVotes(prevVotes => prevVotes.filter(vote => vote._id !== selectedVote._id));
-      toast.success('Vote deleted successfully');
+      toast.success(t.deleteSuccess || 'Vote deleted successfully');
       setDeleteDialogOpen(false);
     } catch (error) {
       console.error('Delete error:', error);
-      toast.error(error.message || 'Failed to delete vote');
+      toast.error(error.message || t.deleteError || 'Failed to delete vote');
     }
   };
 
@@ -378,16 +387,26 @@ const AdminDashboard = () => {
       </Dialog>
 
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogTitle>{t.confirmDelete || 'Confirm Delete'}</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete this vote? This action cannot be undone.
+            {t.deleteConfirmation || 'Are you sure you want to delete this vote? This action cannot be undone.'}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleDelete} variant="contained" color="error">
-            Delete
+          <Button onClick={() => setDeleteDialogOpen(false)}>
+            {t.cancel || 'Cancel'}
+          </Button>
+          <Button 
+            onClick={() => {
+              console.log('Delete button clicked');
+              console.log('Current selectedVote:', selectedVote);
+              handleDelete();
+            }} 
+            variant="contained" 
+            color="error"
+          >
+            {t.delete || 'Delete'}
           </Button>
         </DialogActions>
       </Dialog>
