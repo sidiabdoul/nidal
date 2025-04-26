@@ -212,48 +212,31 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
+    if (!id) {
+      toast.error('Invalid vote ID');
+      return;
+    }
+
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_URL}/api/votes/${selectedVote._id}`, {
+      const response = await fetch(`${API_URL}/api/votes/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
           'Content-Type': 'application/json'
-        },
+        }
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete vote');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete vote');
       }
 
-      toast.success('Vote deleted successfully', {
-        style: {
-          background: '#4caf50',
-          color: '#fff',
-          borderRadius: '12px',
-          padding: '16px',
-          fontSize: '14px',
-          fontWeight: 500,
-          boxShadow: '0 4px 12px rgba(76, 175, 80, 0.2)',
-          fontFamily: 'Poppins, sans-serif',
-        },
-      });
-      setDeleteDialogOpen(false);
-      fetchVotes();
-    } catch (err) {
-      toast.error(err.message, {
-        style: {
-          background: '#f44336',
-          color: '#fff',
-          borderRadius: '12px',
-          padding: '16px',
-          fontSize: '14px',
-          fontWeight: 500,
-          boxShadow: '0 4px 12px rgba(244, 67, 54, 0.2)',
-          fontFamily: 'Poppins, sans-serif',
-        },
-      });
+      setVotes(prevVotes => prevVotes.filter(vote => vote._id !== id));
+      toast.success('Vote deleted successfully');
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error(error.message || 'Failed to delete vote');
     }
   };
 
@@ -402,7 +385,7 @@ const AdminDashboard = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleDelete} variant="contained" color="error">
+          <Button onClick={() => handleDelete(selectedVote?._id)} variant="contained" color="error">
             Delete
           </Button>
         </DialogActions>
