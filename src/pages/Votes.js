@@ -87,11 +87,21 @@ const Votes = () => {
   useEffect(() => {
     const fetchVotes = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/public/votes`);
-        if (!response.ok) throw new Error('Failed to fetch votes');
+        setLoading(true);
+        const response = await fetch('https://nidalb.onrender.com/api/votes', {
+          headers: {
+            'x-admin-token': process.env.REACT_APP_ADMIN_TOKEN
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch votes');
+        }
+        
         const data = await response.json();
-        setVotes(data);
+        setVotes(Array.isArray(data) ? data : []);
       } catch (err) {
+        console.error('Error fetching votes:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -103,27 +113,17 @@ const Votes = () => {
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'linear-gradient(135deg, rgba(211, 47, 47, 0.05) 0%, rgba(211, 47, 47, 0.1) 100%)',
-        }}
-      >
-        <CircularProgress size={60} thickness={4} />
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <CircularProgress />
       </Box>
     );
   }
 
   if (error) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ borderRadius: 2 }}>
-          {error}
-        </Alert>
-      </Container>
+      <Box sx={{ p: 3, textAlign: 'center' }}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
     );
   }
 
@@ -167,7 +167,7 @@ const Votes = () => {
 
         <Grid container spacing={3}>
           {votes.map((vote, index) => (
-            <Grid item xs={12} sm={6} md={4} key={vote._id}>
+            <Grid item xs={12} sm={6} md={4} key={vote.matricule || index}>
               <Zoom in timeout={500 + index * 100}>
                 <StyledPaper>
                   <VoteCard>
@@ -195,7 +195,7 @@ const Votes = () => {
                             fontStyle: 'italic',
                           }}
                         >
-                          {vote.opinion}
+                          {t.opinion}: {t[vote.opinion] || vote.opinion}
                         </Typography>
                       )}
                       <Typography
