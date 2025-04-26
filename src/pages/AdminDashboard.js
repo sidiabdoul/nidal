@@ -212,14 +212,14 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!id) {
+  const handleDelete = async () => {
+    if (!selectedVote || !selectedVote._id) {
       toast.error('Invalid vote ID');
       return;
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/votes/${id}`, {
+      const response = await fetch(`${API_URL}/api/votes/${selectedVote._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
@@ -232,8 +232,9 @@ const AdminDashboard = () => {
         throw new Error(errorData.message || 'Failed to delete vote');
       }
 
-      setVotes(prevVotes => prevVotes.filter(vote => vote._id !== id));
+      setVotes(prevVotes => prevVotes.filter(vote => vote._id !== selectedVote._id));
       toast.success('Vote deleted successfully');
+      setDeleteDialogOpen(false);
     } catch (error) {
       console.error('Delete error:', error);
       toast.error(error.message || 'Failed to delete vote');
@@ -385,7 +386,7 @@ const AdminDashboard = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button onClick={() => handleDelete(selectedVote?._id)} variant="contained" color="error">
+          <Button onClick={handleDelete} variant="contained" color="error">
             Delete
           </Button>
         </DialogActions>
