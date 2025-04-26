@@ -88,18 +88,18 @@ const Votes = () => {
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://nidalb.onrender.com/api/public/votes', {
+        const response = await fetch('https://nidalb.onrender.com/api/votes', {
           headers: {
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
           }
         });
         
         if (!response.ok) {
-          throw new Error('Failed to fetch votes');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        setVotes(Array.isArray(data.data) ? data.data : []);
+        setVotes(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Error fetching votes:', err);
         setError(err.message);
