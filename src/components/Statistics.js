@@ -142,7 +142,7 @@ const Statistics = () => {
   const fetchStats = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/stats`);
-      setStats(response.data);
+      setStats(response.data.data);
     } catch (error) {
       console.error('Error fetching statistics:', error);
     } finally {
