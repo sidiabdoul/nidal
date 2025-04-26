@@ -149,7 +149,7 @@ const AdminLogin = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      localStorage.setItem('adminToken', data.token);
+      localStorage.setItem('adminToken', data.data.token);
       toast.success('Login successful!', {
         style: {
           background: '#4caf50',

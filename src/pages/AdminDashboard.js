@@ -122,7 +122,7 @@ const AdminDashboard = () => {
 
       const response = await fetch(`${API_URL}/api/votes`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'x-admin-token': token,
           'Content-Type': 'application/json'
         }
       });

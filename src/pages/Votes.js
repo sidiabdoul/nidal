@@ -88,27 +88,18 @@ const Votes = () => {
     const fetchVotes = async () => {
       try {
         setLoading(true);
-        const adminToken = localStorage.getItem('adminToken');
-        if (!adminToken) {
-          throw new Error('Admin token not found');
-        }
-
-        const response = await fetch('https://nidalb.onrender.com/api/votes', {
+        const response = await fetch('https://nidalb.onrender.com/api/public/votes', {
           headers: {
-            'x-admin-token': adminToken,
             'Content-Type': 'application/json'
           }
         });
         
         if (!response.ok) {
-          if (response.status === 403) {
-            throw new Error('Unauthorized access. Please log in as admin.');
-          }
           throw new Error('Failed to fetch votes');
         }
         
         const data = await response.json();
-        setVotes(Array.isArray(data) ? data : []);
+        setVotes(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         console.error('Error fetching votes:', err);
         setError(err.message);
